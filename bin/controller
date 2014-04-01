@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 #
 # Usage: controller [ boot | start | status | stop | restart | log | quit ]
 #
@@ -8,8 +8,10 @@
 #   % controller stop    # stop jobs
 #   % controller quit    # stop bluepilld
 #
-if [ "$1" = "boot" ]; then
-  bluepill --no-privileged load "config/environments/bluepill_${ROBOT_ENVIRONMENT:-development}.rb"
+ENV['ROBOT_ENVIRONMENT'] ||= 'development'
+
+if ARGV[0] == 'boot' 
+  system "bluepill --no-privileged load config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb"
 else
-  bluepill --no-privileged $*
-fi
+  system "bluepill --no-privileged #{ARGV.join(' ')}"
+end
