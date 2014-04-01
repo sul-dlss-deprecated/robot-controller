@@ -18,6 +18,17 @@ In your `Rakefile`, add:
       require File.expand_path(File.join(File.dirname(__FILE__), 'config', 'boot'))
     end
     
+    desc "Start multiple Resque workers"
+    task :workers do
+      threads = []
+      (ENV['COUNT'] || '1').to_i.times do
+        threads << Thread.new do
+          system "rake environment resque:work"
+        end
+      end
+      threads.each { |thread| thread.join }
+    end
+    
 Create the following configuration files based on the examples in `config`:
 
     config/boot.rb
