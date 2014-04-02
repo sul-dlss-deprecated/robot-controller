@@ -12,22 +12,7 @@ In your `Gemfile`, add:
 In your `Rakefile`, add the following (if you don't want to include the environment unconditionally):
 
     require 'resque/tasks'
-    
-    desc "Environment from boot"
-    task :environment do
-      require File.expand_path(File.join(File.dirname(__FILE__), 'config', 'boot'))
-    end
-    
-    desc "Start multiple Resque workers"
-    task :workers do
-      threads = []
-      (ENV['COUNT'] || '1').to_i.times do
-        threads << Thread.new do
-          system "rake environment resque:work"
-        end
-      end
-      threads.each { |thread| thread.join }
-    end
+    Dir.glob('lib/tasks/*.rake').each { |r| import r }
     
 Create the following configuration files based on the examples in `config`:
 
