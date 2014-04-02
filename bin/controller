@@ -16,10 +16,13 @@ Example:
 end
 
 ENV['ROBOT_ENVIRONMENT'] ||= 'development'
-ENV['BLUEPILL_BASE_DIR'] ||= '.bluepill'
+
+cmd = "bluepill --no-privileged"
+cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR'] || File.expand_path('run/bluepill')}"
+cmd << " --logfile #{ENV['BLUEPILL_LOGFILE'] || File.expand_path('log/bluepill.log')}"
 
 if ARGV[0] == 'boot' 
-  system "bluepill --no-privileged load config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb"
+  system "#{cmd} load config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb"
 else
-  system "bluepill --no-privileged #{ARGV.join(' ')}"
+  system "#{cmd} #{ARGV.join(' ')}"
 end
