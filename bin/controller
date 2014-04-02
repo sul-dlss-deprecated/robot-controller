@@ -16,6 +16,7 @@ Example:
 end
 
 ENV['ROBOT_ENVIRONMENT'] ||= 'development'
+ENV['BLUEPILL_BASE_DIR'] ||= 'run/.bluepill'
 
 if ARGV[0] == 'boot' 
   system "bluepill --no-privileged load config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb"

@@ -44,7 +44,8 @@ Bluepill.application 'robot-controller',
       process.group = robot_environment
       process.stdout = process.stderr = "#{WORKDIR}/log/#{wf}.log"
 
-      process.pid_file = "#{WORKDIR}/run/#{wf}.pid"
+      # let bluepill manage pid files
+      # process.pid_file = "#{WORKDIR}/run/#{wf}.pid"
       
       # spawn n worker processes
       if n > 1
