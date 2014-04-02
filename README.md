@@ -7,9 +7,9 @@ Monitors and controls running workflow robots off of priority queues and within 
 
 In your `Gemfile`, add:
 
-    gem 'robot-controller'
+    gem 'robot-controller', :github => 'sul-dlss/robot-controller'
 
-In your `Rakefile`, add:
+In your `Rakefile`, add the following (if you don't want to include the environment unconditionally):
 
     require 'resque/tasks'
     
@@ -36,7 +36,7 @@ Create the following configuration files based on the examples in `config`:
     config/environments/bluepill_development.rb
     config/environments/workflows_development.rb
 
-Create a `config.ru` file as follows:
+Create a `config.ru` file as follows to install tabs and run Resque monitoring UI:
 
     require 'resque/server'
     require File.expand_path(File.dirname(__FILE__) + '/./lib/resque/resque-robot-controller')
@@ -49,10 +49,12 @@ Create a `config.ru` file as follows:
 
 ### Usage
 
-    Usage: controller [ boot | start | status | stop | restart | log | quit ]
+    Usage: controller [ boot | quit ]
+           controller [ start | status | stop | restart | log ] [worker]
 
     Example:
      % controller boot    # start bluepilld and jobs
      % controller status  # check on status of jobs
+     % controller log dor_accessionWF_descriptive-metadata # view log for worker
      % controller stop    # stop jobs
      % controller quit    # stop bluepilld
