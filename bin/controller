@@ -1,13 +1,20 @@
 #!/usr/bin/env ruby
-#
-# Usage: controller [ boot | start | status | stop | restart | log | quit ]
-#
-# Example:
-#   % controller boot    # start bluepilld and jobs
-#   % controller status  # check on status of jobs
-#   % controller stop    # stop jobs
-#   % controller quit    # stop bluepilld
-#
+
+if ARGV.size == 0
+  puts '
+Usage: controller [ boot | quit ]
+       controller [ start | status | stop | restart | log ] [worker]
+
+Example:
+  % controller boot    # start bluepilld and jobs
+  % controller status  # check on status of jobs
+  % controller log dor_accessionWF_descriptive-metadata # view log for worker
+  % controller stop    # stop jobs
+  % controller quit    # stop bluepilld
+'
+  exit -1
+end
+
 ENV['ROBOT_ENVIRONMENT'] ||= 'development'
 
 if ARGV[0] == 'boot' 
