@@ -7,7 +7,7 @@ Monitors and controls running workflow robots off of priority queues and within 
 
 In your `Gemfile`, add:
 
-    gem 'robot-controller', :github => 'sul-dlss/robot-controller'
+    gem 'robot-controller'
 
 In your `Rakefile`, add the following (if you don't want to include the environment unconditionally):
 
