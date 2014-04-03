@@ -12,7 +12,7 @@ In your `Gemfile`, add:
 In your `Rakefile`, add the following (if you don't want to include the environment unconditionally):
 
     require 'resque/tasks'
-    Dir.glob('lib/tasks/*.rake').each { |r| import r }
+    require 'robot-controller/tasks'
     
 Create the following configuration files based on the examples in `config`:
 
