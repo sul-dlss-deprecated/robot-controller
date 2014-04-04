@@ -21,17 +21,6 @@ Create the following configuration files based on the examples in `example/confi
     config/environments/bluepill_development.rb
     config/environments/workflows_development.rb
 
-Create a `config.ru` file as follows to install tabs and run Resque monitoring UI:
-
-    require 'resque/server'
-    require File.expand_path(File.dirname(__FILE__) + '/./lib/resque/resque-robot-controller')
-
-    Resque.redis = 'localhost:6379:0/resque:development'
-
-    run Rack::URLMap.new \
-      "/"       => Resque::Server.new
-
-
 ### Usage
 
     Usage: controller [ boot | quit ]

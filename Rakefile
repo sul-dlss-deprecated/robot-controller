@@ -5,4 +5,4 @@ require 'robot-controller/tasks'
 
 Dir.glob('lib/tasks/*.rake').each { |r| import r }
 
-task :default => [ :doc ]
+task :default => [ :yard ]
