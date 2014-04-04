@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
  
   s.required_rubygems_version = ">= 1.3.6"
   
-  s.add_dependency 'bluepill', '~> 0.0.64'
+  s.add_dependency 'bluepill', '~> 0.0.66'
   
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'pry'
