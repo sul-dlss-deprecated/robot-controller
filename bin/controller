@@ -21,8 +21,17 @@ cmd = "bluepill --no-privileged"
 cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR'] || File.expand_path('run/bluepill')}"
 cmd << " --logfile #{ENV['BLUEPILL_LOGFILE'] || File.expand_path('log/bluepill.log')}"
 
-if ARGV[0] == 'boot' 
-  system "#{cmd} load config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb"
+if ARGV[0] == 'boot'
+  ["config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb",
+   "config/environments/bluepill.rb",
+   "config/bluepill.rb"].each do |fn|
+    if File.file?(fn)
+      system "#{cmd} load #{fn}"
+      exit 0
+    end
+  end
+  puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
+  exit -1
 else
   system "#{cmd} #{ARGV.join(' ')}"
 end
