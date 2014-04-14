@@ -1,7 +1,4 @@
 Gemfile.lock
-config/environments/development.rb
-config/environments/testing.rb
-config/environments/production.rb
 log
 run
 *.gem

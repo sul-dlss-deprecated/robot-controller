@@ -14,23 +14,12 @@ In your `Rakefile`, add the following (if you don't want to include the environm
     require 'resque/tasks'
     require 'robot-controller/tasks'
     
-Create the following configuration files based on the examples in `config`:
+Create the following configuration files based on the examples in `example/config`:
 
     config/boot.rb
     config/environments/development.rb
     config/environments/bluepill_development.rb
     config/environments/workflows_development.rb
-
-Create a `config.ru` file as follows to install tabs and run Resque monitoring UI:
-
-    require 'resque/server'
-    require File.expand_path(File.dirname(__FILE__) + '/./lib/resque/resque-robot-controller')
-
-    Resque.redis = 'localhost:6379:0/resque:development'
-
-    run Rack::URLMap.new \
-      "/"       => Resque::Server.new
-
 
 ### Usage
 
@@ -40,6 +29,5 @@ Create a `config.ru` file as follows to install tabs and run Resque monitoring U
     Example:
      % controller boot    # start bluepilld and jobs
      % controller status  # check on status of jobs
-     % controller log dor_accessionWF_descriptive-metadata # view log for worker
      % controller stop    # stop jobs
      % controller quit    # stop bluepilld

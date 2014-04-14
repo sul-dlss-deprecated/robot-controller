@@ -22,14 +22,11 @@ Gem::Specification.new do |s|
  
   s.required_rubygems_version = ">= 1.3.6"
   
-  s.add_dependency 'bluepill', '~> 0.0.64'
-  s.add_dependency 'resque', '~> 1.25.2'
+  s.add_dependency 'bluepill', '~> 0.0.66'
   
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'rack'
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rdoc'
   s.add_development_dependency 'redcarpet' # provides Markdown
   s.add_development_dependency 'version_bumper'
   s.add_development_dependency 'yard'
