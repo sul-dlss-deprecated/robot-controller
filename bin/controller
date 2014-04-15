@@ -2,8 +2,9 @@
 
 if ARGV.size == 0
   puts '
-Usage: controller [ boot | quit ]
-       controller [ start | status | stop | restart | log ] [worker]
+Usage: controller ( boot | quit )
+       controller ( start | status | stop | restart | log ) [worker]
+       controller [--help]
 
 Example:
   % controller boot    # start bluepilld and jobs
@@ -11,15 +12,28 @@ Example:
   % controller log dor_accessionWF_descriptive-metadata # view log for worker
   % controller stop    # stop jobs
   % controller quit    # stop bluepilld
+  
+Environment:
+  BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
+  BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
+  ROBOT_ENVIRONMENT - (default: development)
+  
+Configuration files (in search order)
+  config/environments/bluepill_development.rb
+  config/environments/bluepill.rb
+  config/bluepill.rb
 '
   exit -1
 end
 
 ENV['ROBOT_ENVIRONMENT'] ||= 'development'
+ENV['BLUEPILL_BASE_DIR'] ||= File.expand_path('run/bluepill')
+ENV['BLUEPILL_LOGFILE']  ||= File.expand_path('log/bluepill.log')
 
-cmd = "bluepill --no-privileged"
-cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR'] || File.expand_path('run/bluepill')}"
-cmd << " --logfile #{ENV['BLUEPILL_LOGFILE'] || File.expand_path('log/bluepill.log')}"
+cmd = 'bluepill'
+cmd << ' --no-privileged'
+cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR']}"
+cmd << " --logfile #{ENV['BLUEPILL_LOGFILE']}"
 
 if ARGV[0] == 'boot'
   ["config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb",
