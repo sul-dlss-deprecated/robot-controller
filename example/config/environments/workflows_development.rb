@@ -23,9 +23,3 @@ WORKFLOW_STEPS = %w{
 WORKFLOW_N = Hash[*%w{
   dor:assemblyWF:checksum-compute     3
 }]
-
-# starts up 2 workers -- one for this priority and another for all
-# XXX: not implemented
-WORKFLOW_PRIORITIES = Hash[*%w{
-  dor:assemblyWF:checksum-compute     critical,high
-}]
