@@ -31,10 +31,7 @@ REDIS_URL ||= "localhost:6379/resque:#{ENV['ROBOT_ENVIRONMENT']}"
 Resque.redis = REDIS_URL
 
 require 'active_support/core_ext' # camelcase
-require 'druid-tools'
 require 'robot-controller'
-require 'robots'
-
 
 
 
