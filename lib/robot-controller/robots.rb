@@ -72,6 +72,10 @@ class RobotConfigParser
   def load(env)
     # read the YAML file
     robots_fn = File.join('config', 'environments', "robots_#{env}.yml")
+    unless File.file?(robots_fn)
+      raise RuntimeError, "FileNotFound: #{robots_fn}"
+    end
+    
     puts "Loading #{robots_fn}"
     robots =  YAML.load_file(robots_fn)
     # puts robots

@@ -33,10 +33,11 @@ cmd << " --logfile #{ENV['BLUEPILL_LOGFILE']}"
 if ARGV[0] == 'boot'
   fn = 'config/bluepill.rb' # allow override
   unless File.file?(fn)
-    require 'robot-controller/bluepill'
-    fn = RobotController::BLUEPILL_CONFIG
+    require 'robot-controller'
+    fn = RobotController.bluepill_config
   end
   if File.file?(fn)
+    puts "Loading #{fn}"
     system "#{cmd} load #{fn}"
     exit 0
   end

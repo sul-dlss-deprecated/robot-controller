@@ -1,4 +1,3 @@
-BLUEPILL_CONFIG = __FILE__
 WORKDIR = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 robot_environment = ENV['ROBOT_ENVIRONMENT'] || 'development'
 require 'robot-controller/robots'
