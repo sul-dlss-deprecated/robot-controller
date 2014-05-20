@@ -40,12 +40,13 @@ if ARGV[0] == 'boot'
    "config/environments/bluepill.rb",
    "config/bluepill.rb"].each do |fn|
     if File.file?(fn)
-      system "#{cmd} load #{fn}"
-      exit 0
+      exec "#{cmd} load #{fn}"
+      # NOTREACHED
     end
   end
   puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
   exit -1
 else
-  system "#{cmd} #{ARGV.join(' ')}"
+  exec "#{cmd} #{ARGV.join(' ')}"
+  # NOTREACHED
 end
