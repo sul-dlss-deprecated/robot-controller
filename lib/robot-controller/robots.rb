@@ -2,7 +2,6 @@ require 'yaml'
 
 class RobotConfigParser
   ROBOT_INSTANCE_MAX = 16
-  LANE_INSTANCE_MAX = 99  # sprintf("%02d") maximum
 
   # parse_instances(1) == 1
   # parse_instances(16) == 16
@@ -17,53 +16,21 @@ class RobotConfigParser
   end
 
   # parse_lanes('*') == ['*']
-  # parse_lanes('0') == [0]
-  # parse_lanes('1') == [1]
-  # parse_lanes('1-5') == [1,2,3,4,5]
-  # parse_lanes('1,2,3') == [1,2,3]
-  # parse_lanes('1-5,8') == [1,2,3,4,5,8]
-  # parse_lanes('-1') == [0, 1]
-  # parse_lanes('100') == RuntimeException
+  # parse_lanes('1') == ['1']
+  # parse_lanes('A') == ['A']
+  # parse_lanes('A , B') == ['A', 'B']
+  # parse_lanes('A,B,C') == ['A','B','C']
+  # parse_lanes('A-C,E') == ['A-C', 'E']
   def parse_lanes(lanes_spec)
-    lanes = []
-  
-    # parse each comma-seperated specification
-    lanes_spec.split(/,/).each do |i|
-      # this is a range element
-      if i =~ /-/
-        x = i.split(/-/)
-        Range.new(x[0].to_i, x[1].to_i).each do |j|
-          lanes << j
-        end
-      # a wildcard
-      elsif i == '*'
-        lanes << '*'
-      # simple integer
-      else
-        lanes << i.to_i
-      end
-    end
-  
-    # verify that lanes are all within 1 .. LANE_INSTANCE_MAX
-    lanes.each do |j|
-      if j.is_a?(Integer)
-        if j > LANE_INSTANCE_MAX
-          raise RuntimeError, "SyntaxError: Lane #{j} > #{LANE_INSTANCE_MAX}"
-        elsif j < 0
-          raise RuntimeError, "SyntaxError: Lane #{j} < 0"
-        end
-      end
-    end
-    lanes
+    lanes_spec.split(/,/).collect {|l| l.strip }
   end
 
-  # build_queues('a','1') => ['a_01']
-  # build_queues('a','1,3') => ['a_01', 'a_03']
-  # build_queues('a','1-3') => ['a_01', 'a_02', 'a_03']
+  # build_queues('z','A') => ['z_A']
+  # build_queues('z','A,C') => ['z_A', 'z_C']
   def build_queues(robot, lanes)
     queues = []
     parse_lanes(lanes).each do |i|
-      queues << [robot, i == '*' ? '*' : sprintf("%02d", i)].join('_')
+      queues << [robot, i].join('_')
     end
     queues
   end
