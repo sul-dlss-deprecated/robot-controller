@@ -12,16 +12,11 @@ Example:
   % controller log dor_accessionWF_descriptive-metadata # view log for worker
   % controller stop    # stop jobs
   % controller quit    # stop bluepilld
-  
+
 Environment:
   BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
   BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
   ROBOT_ENVIRONMENT - (default: development)
-  
-Configuration files (in search order)
-  config/environments/bluepill_development.rb
-  config/environments/bluepill.rb
-  config/bluepill.rb
 '
   exit -1
 end
@@ -36,13 +31,15 @@ cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR']}"
 cmd << " --logfile #{ENV['BLUEPILL_LOGFILE']}"
 
 if ARGV[0] == 'boot'
-  ["config/environments/bluepill_#{ENV['ROBOT_ENVIRONMENT']}.rb",
-   "config/environments/bluepill.rb",
-   "config/bluepill.rb"].each do |fn|
-    if File.file?(fn)
-      exec "#{cmd} load #{fn}"
-      # NOTREACHED
-    end
+  fn = 'config/bluepill.rb' # allow override
+  unless File.file?(fn)
+    require 'robot-controller'
+    fn = RobotController.bluepill_config
+  end
+  if File.file?(fn)
+    puts "Loading #{fn}"
+    system "#{cmd} load #{fn}"
+    exit 0
   end
   puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
   exit -1

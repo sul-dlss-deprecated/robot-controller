@@ -1,3 +1,5 @@
+require 'resque/tasks'
+
 desc "Start multiple Resque workers using environment"
 task :workers => [ :environment ] do
   threads = []
