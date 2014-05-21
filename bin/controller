@@ -38,8 +38,8 @@ if ARGV[0] == 'boot'
   end
   if File.file?(fn)
     puts "Loading #{fn}"
-    system "#{cmd} load #{fn}"
-    exit 0
+    exec "#{cmd} load #{fn}"
+    # NOTREACHED
   end
   puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
   exit -1
