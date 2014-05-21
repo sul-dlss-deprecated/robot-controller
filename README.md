@@ -11,7 +11,6 @@ In your `Gemfile`, add:
 
 In your `Rakefile`, add the following (if you don't want to include the environment unconditionally):
 
-    require 'resque/tasks'
     require 'robot-controller/tasks'
     
 Create the following configuration files based on the examples in `example/config`:
@@ -36,7 +35,7 @@ controller, then add:
     Example:
       % controller boot    # start bluepilld and jobs
       % controller status  # check on status of jobs
-      % controller log dor_accessionWF_descriptive-metadata # view log for worker
+      % controller log 1_dor_accessionWF_descriptive-metadata # view log for worker
       % controller stop    # stop jobs
       % controller quit    # stop bluepilld
   
