@@ -52,6 +52,13 @@ sul-robots1-dev:
   - dor_accessionWF_shelve:*:3                # 3 robots for all lanes
   - dor_accessionWF_publish:A,C:3             # 3 robots for lanes A and C
   - dor_accessionWF_publish:B,D,E             # 1 robot for lanes B, D and E
+  - dor_accessionWF_descriptive-metadata      # 1 robot for all lanes
+  - dor_accessionWF_rights-metadata           # 1 robot for all lanes
+  - dor_accessionWF_content-metadata          # 1 robot for all lanes
+  - dor_accessionWF_remediate-object          # 1 robot for all lanes
+  - dor_accessionWF_provenance-metadata       # 1 robot for all lanes
+  - dor_accessionWF_sdr-ingest-transfer       # 1 robot for all lanes
+  - dor_accessionWF_end-accession             # 1 robot for all lanes
 
 #
 # Robot 2 (16 CPU) hosts technical metadata creation only
@@ -70,8 +77,8 @@ sul-robots3-dev:
   - dor_accessionWF_content-metadata          # 1 robot for all lanes
   - dor_accessionWF_technical-metadata        # 1 robot for all lanes
   - dor_accessionWF_remediate-object          # 1 robot for all lanes
-  - dor_accessionWF_shelve:*:5                # 5 robots for all lanes
-  - dor_accessionWF_publish:*:10              # 10 robots for all lanes
+  - dor_accessionWF_shelve                    # 1 robot for all lanes
+  - dor_accessionWF_publish                   # 1 robot for all lanes
   - dor_accessionWF_provenance-metadata       # 1 robot for all lanes
   - dor_accessionWF_sdr-ingest-transfer       # 1 robot for all lanes
   - dor_accessionWF_end-accession             # 1 robot for all lanes
