@@ -15,6 +15,10 @@ class RobotConfigParser
     n
   end
 
+  # parse_lanes('') == ['default']
+  # parse_lanes(' ') == ['default']
+  # parse_lanes(' , ') == ['default']
+  # parse_lanes(' , ,') == ['default']
   # parse_lanes('*') == ['*']
   # parse_lanes('1') == ['1']
   # parse_lanes('A') == ['A']
@@ -22,6 +26,7 @@ class RobotConfigParser
   # parse_lanes('A,B,C') == ['A','B','C']
   # parse_lanes('A-C,E') == ['A-C', 'E']
   def parse_lanes(lanes_spec)
+    return ['default'] if lanes_spec.split(/,/).collect {|l| l.strip}.join('') == ''
     lanes_spec.split(/,/).collect {|l| l.strip }
   end
 
