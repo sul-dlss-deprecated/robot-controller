@@ -1,4 +1,5 @@
-WORKDIR = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+WORKDIR = WorkDir.find Dir.pwd
+
 robot_environment = ENV['ROBOT_ENVIRONMENT'] || 'development'
 require 'robot-controller/robots'
 #
@@ -32,12 +33,12 @@ Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
 
       # spawn worker processes using robot-controller
       process.environment['COUNT'] = ROBOTS[i][:n]
-      process.start_command = "rake workers" 
-      
+      process.start_command = "rake workers"
+
       # we use bluepill to daemonize the resque workers rather than using
       # resque's BACKGROUND flag
       process.daemonize = true
-      
+
       # bluepill manages pid files
       # process.pid_file = "#{WORKDIR}/run/#{process.name}.pid"
 
