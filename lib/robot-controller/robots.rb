@@ -41,19 +41,20 @@ class RobotConfigParser
   end
 
   # main entry point
-  def load(env)
-    # read the YAML file
-    robots_fn = File.join('config', 'environments', "robots_#{env}.yml")
+  def load(robots_fn, dir = 'config/environments', host = nil)
+    # Validate parameters
+    robots_fn = File.join(dir, robots_fn) if dir
     unless File.file?(robots_fn)
       raise RuntimeError, "FileNotFound: #{robots_fn}"
     end
     
+    # read the YAML file
     puts "Loading #{robots_fn}"
     robots =  YAML.load_file(robots_fn)
     # puts robots
   
     # determine current host
-    host = `hostname -s`.strip
+    host = `hostname -s`.strip unless host
     # puts host
 
     # host = 'sul-robots1-dev' # XXX
@@ -93,6 +94,3 @@ class RobotConfigParser
     r
   end
 end
-
-ROBOTS = RobotConfigParser.new.load(ENV['ROBOT_ENVIRONMENT'] || 'development')
-# puts ROBOTS
