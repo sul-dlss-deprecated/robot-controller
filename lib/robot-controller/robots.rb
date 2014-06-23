@@ -73,7 +73,7 @@ class RobotConfigParser
     
       # add defaults
       if robot.size == 1
-        robot << '*'
+        robot << 'default'
       end
       if robot.size == 2
         robot << '1'
