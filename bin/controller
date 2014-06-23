@@ -25,6 +25,12 @@ ENV['ROBOT_ENVIRONMENT'] ||= 'development'
 ENV['BLUEPILL_BASE_DIR'] ||= File.expand_path('run/bluepill')
 ENV['BLUEPILL_LOGFILE']  ||= File.expand_path('log/bluepill.log')
 
+unless File.directory?('config') and 
+       File.directory?(File.dirname(ENV['BLUEPILL_BASE_DIR'])) and
+       File.directory?(File.dirname(ENV['BLUEPILL_LOGFILE']))
+  raise "Run from root directory" 
+end
+
 cmd = 'bluepill'
 cmd << ' --no-privileged'
 cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR']}"
