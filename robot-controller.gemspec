@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
   s.add_development_dependency 'redcarpet' # provides Markdown
   s.add_development_dependency 'version_bumper'
   s.add_development_dependency 'yard'

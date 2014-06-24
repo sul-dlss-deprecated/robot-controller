@@ -2,6 +2,7 @@ WORKDIR = Dir.pwd
 
 robot_environment = ENV['ROBOT_ENVIRONMENT'] || 'development'
 require 'robot-controller/robots'
+ROBOTS = RobotConfigParser.new.load("robots_#{robot_environment}.yml")
 #
 # Expect ROBOTS = [
 #  {:robot => 'x', :queues => ['a', 'b'], :n => 1}
