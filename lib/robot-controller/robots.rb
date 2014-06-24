@@ -27,7 +27,7 @@ class RobotConfigParser
   # parse_lanes('A-C,E') == ['A-C', 'E']
   def parse_lanes(lanes_spec)
     return ['default'] if lanes_spec.split(/,/).collect {|l| l.strip}.join('') == ''
-    lanes_spec.split(/,/).collect {|l| l.strip }
+    lanes_spec.split(/,/).collect {|l| l.strip }.uniq
   end
 
   # build_queues('z','A') => ['z_A']
