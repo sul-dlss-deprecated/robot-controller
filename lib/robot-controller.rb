@@ -1,5 +1,4 @@
 # Monitors and controls running workflow robots off of priority queues and within a cluster.
-require 'robot-controller/work_dir'
 
 module RobotController
   # e.g., `1.2.3`

@@ -1,4 +1,4 @@
-WORKDIR = WorkDir.find Dir.pwd
+WORKDIR = Dir.pwd
 
 robot_environment = ENV['ROBOT_ENVIRONMENT'] || 'development'
 require 'robot-controller/robots'
@@ -8,6 +8,8 @@ require 'robot-controller/robots'
 #  {:robot => 'z', :queues => ['b'], :n => 3}
 # ]
 #
+
+# set application name to parent directory name
 Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
   :log_file => "#{WORKDIR}/log/bluepill.log" do |app|
   app.working_dir = WORKDIR
