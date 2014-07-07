@@ -28,7 +28,7 @@ Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
         'QUEUES' => queues,
         'ROBOT_ENVIRONMENT' => robot_environment
       }
-      process.environment['VERBOSE'] = 'yes' if robot_environment != 'production'
+      process.environment['VERBOSE'] = 'yes' if ENV['ROBOT_VERBOSE'] == 'yes'
 
       # process configuration
       process.group = robot_environment
