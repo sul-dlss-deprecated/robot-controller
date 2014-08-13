@@ -43,3 +43,7 @@ controller, then add:
       BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
       BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
       ROBOT_ENVIRONMENT - (default: development)
+
+### Changes
+
+* `v1.0.0`: Initial version
