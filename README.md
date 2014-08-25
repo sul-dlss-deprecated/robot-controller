@@ -47,3 +47,4 @@ controller, then add:
 ### Changes
 
 * `v1.0.0`: Initial version
+* `v1.0.1`: Add 'rake' as dependency
