@@ -24,10 +24,10 @@ Gem::Specification.new do |s|
   
   s.add_dependency 'bluepill', '~> 0.0.67'
   s.add_dependency 'resque', '~> 1.25.2'
+  s.add_dependency 'rake', '~> 10.3.2'
   
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'redcarpet' # provides Markdown
   s.add_development_dependency 'version_bumper'
