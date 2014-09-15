@@ -26,6 +26,8 @@ Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
 
         # use environment for these resque variables
         process.environment = {
+          'TERM_CHILD' => '1', # TERM, KILL, USR1 sent to worker process if running
+          'RESQUE_TERM_TIMEOUT' => '10.0', # seconds to wait before sending KILL after TERM
           'QUEUES' => queues,
           'ROBOT_ENVIRONMENT' => robot_environment,
           'INTERVAL' => '5'
