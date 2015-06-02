@@ -18,17 +18,17 @@ Environment:
   BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
   ROBOT_ENVIRONMENT - (default: development)
 '
-  exit -1
+  exit(-1)
 end
 
 ENV['ROBOT_ENVIRONMENT'] ||= 'development'
 ENV['BLUEPILL_BASE_DIR'] ||= File.expand_path('run/bluepill')
-ENV['BLUEPILL_LOGFILE']  ||= File.expand_path('log/bluepill.log')
+ENV['BLUEPILL_LOGFILE'] ||= File.expand_path('log/bluepill.log')
 
 unless File.directory?('config') &&
        File.directory?(File.dirname(ENV['BLUEPILL_BASE_DIR'])) &&
        File.directory?(File.dirname(ENV['BLUEPILL_LOGFILE']))
-  raise "Run from root directory"
+  fail 'Run from root directory'
 end
 
 cmd = 'bluepill'
@@ -48,7 +48,7 @@ if ARGV[0] == 'boot'
     # NOTREACHED
   end
   puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
-  exit -1
+  exit(-1)
 else
   exec "#{cmd} #{ARGV.join(' ')}"
   # NOTREACHED

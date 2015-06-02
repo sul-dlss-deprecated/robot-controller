@@ -12,12 +12,12 @@ ROBOTS = RobotConfigParser.new.load("robots_#{robot_environment}.yml")
 
 # set application name to parent directory name
 Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
-  :log_file => "#{WORKDIR}/log/bluepill.log" do |app|
+                     log_file: "#{WORKDIR}/log/bluepill.log" do |app|
   app.working_dir = WORKDIR
-  ROBOTS.each_index do |i|    
+  ROBOTS.each_index do |i|
     ROBOTS[i][:n].to_i.times do |j|
       # prefix process name with index number to prevent duplicate process names
-      prefix = sprintf("robot%02d_%02d", i+1, j+1)
+      prefix = sprintf('robot%02d_%02d', i + 1, j + 1)
       app.process("#{prefix}_#{ROBOTS[i][:robot]}") do |process|
         puts "Creating robot #{process.name}"
 
@@ -34,13 +34,13 @@ Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
         }
         process.environment['VERBOSE'] = 'yes' if ENV['ROBOT_VERBOSE'] == 'yes'
         process.environment['VVERBOSE'] = 'yes' if ENV['ROBOT_VVERBOSE'] == 'yes'
-        
+
         # process configuration
         process.group = robot_environment
         process.stdout = process.stderr = "#{WORKDIR}/log/#{ROBOTS[i][:robot]}.log"
 
         # spawn worker processes using robot-controller
-        process.start_command = "rake environment resque:work"
+        process.start_command = 'rake environment resque:work'
 
         # we use bluepill to daemonize the resque workers rather than using
         # resque's BACKGROUND flag

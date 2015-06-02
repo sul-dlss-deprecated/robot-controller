@@ -1,5 +1,6 @@
 require 'yaml'
 
+#
 class RobotConfigParser
   ROBOT_INSTANCE_MAX = 16
 
@@ -9,7 +10,7 @@ class RobotConfigParser
   # parse_instances(99) => RuntimeError
   def parse_instances(n)
     if n > ROBOT_INSTANCE_MAX
-      raise RuntimeError, "TooManyInstances: #{n} > #{ROBOT_INSTANCE_MAX}"
+      fail "TooManyInstances: #{n} > #{ROBOT_INSTANCE_MAX}"
     end
     n = 1 if n < 1
     n
@@ -26,8 +27,8 @@ class RobotConfigParser
   # parse_lanes('A,B,C') == ['A','B','C']
   # parse_lanes('A-C,E') == ['A-C', 'E']
   def parse_lanes(lanes_spec)
-    return ['default'] if lanes_spec.split(/,/).collect {|l| l.strip}.join('') == ''
-    lanes_spec.split(/,/).collect {|l| l.strip }.uniq
+    return ['default'] if lanes_spec.split(/,/).collect(&:strip).join('') == ''
+    lanes_spec.split(/,/).collect(&:strip).uniq
   end
 
   # build_queues('z','A') => ['z_A']
@@ -44,52 +45,42 @@ class RobotConfigParser
   def load(robots_fn, dir = 'config/environments', host = nil)
     # Validate parameters
     robots_fn = File.join(dir, robots_fn) if dir
-    unless File.file?(robots_fn)
-      raise RuntimeError, "FileNotFound: #{robots_fn}"
-    end
-    
+    fail "FileNotFound: #{robots_fn}" unless File.file?(robots_fn)
+
     # read the YAML file
     puts "Loading #{robots_fn}"
     robots =  YAML.load_file(robots_fn)
     # puts robots
-  
+
     # determine current host
     host = `hostname -s`.strip unless host
     # puts host
 
     # host = 'sul-robots1-dev' # XXX
     unless robots.include?(host)
-      raise RuntimeError, "HostMismatch: #{host} not defined in #{robots_fn}"
+      fail "HostMismatch: #{host} not defined in #{robots_fn}"
     end
 
     # parse YAML lines for host where i is robot[:lane[:instances]]
     r = []
-    robots[host].each do |i|  
-      robot = i.split(/:/).collect {|j| j.strip}
+    robots[host].each do |i|
+      robot = i.split(/:/).collect(&:strip)
       robot.each do |j|
-        if j.strip == ''
-          raise RuntimeError, "SyntaxError: #{i}"
-        end
+        fail "SyntaxError: #{i}" if j.strip == ''
       end
-    
+
       # add defaults
-      if robot.size == 1
-        robot << 'default'
-      end
-      if robot.size == 2
-        robot << '1'
-      end
-    
+      robot << 'default' if robot.size == 1
+      robot << '1' if robot.size == 2
+
       # build queues for robot instances
-      unless robot.size == 3
-        raise RuntimeError, "SyntaxError: #{i}"
-      end
+      fail "SyntaxError: #{i}" unless robot.size == 3
       robot[2] = parse_instances(robot[2].to_i)
       # puts robot.join(' : ')
       queues = build_queues(robot[0], robot[1])
       # puts queues
-  
-      r << {:robot => robot[0], :queues => queues, :n => robot[2] }
+
+      r << { robot: robot[0], queues: queues, n: robot[2] }
     end
     r
   end
