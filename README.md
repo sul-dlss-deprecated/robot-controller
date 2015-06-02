@@ -54,7 +54,7 @@ controller, then add:
 ### `verify` command
 
 You can run the `verify` command with an optional `--verbose` to print out
-details about whether the robots are processes are running as configured.
+details about whether the robots processes are running as configured.
 
 When no errors are detected, the output looks like so:
 
@@ -82,10 +82,10 @@ If `robot2` were down and `robot3` were up, the output would look like so:
 The various states are determined as follows:
 
 - If the robot is enabled:
--- `OK`: all N processes are running
--- `ERROR`: not all N processes are running
+  - `OK`: all N processes are running
+  - `ERROR`: not all N processes are running
 - If the robot is NOT enabled:
--- `OK`: no processes are running
--- `ERROR`: 1 or more processes are running
+  - `OK`: no processes are running
+  - `ERROR`: 1 or more processes are running
 
 NOTE: The queues on which the robots are running are NOT verified.
