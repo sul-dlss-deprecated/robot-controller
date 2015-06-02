@@ -30,12 +30,14 @@ controller, then add:
 
     Usage: controller ( boot | quit )
            controller ( start | status | stop | restart | log ) [worker]
+           controller verify [--verbose]
            controller [--help]
 
     Example:
       % controller boot    # start bluepilld and jobs
       % controller status  # check on status of jobs
-      % controller log 1_dor_accessionWF_descriptive-metadata # view log for worker
+      % controller verify  # verify robots are running as configured
+      % controller log 1_dor_accessionWF_descriptive-metadata # view log for worker 
       % controller stop    # stop jobs
       % controller quit    # stop bluepilld
   
@@ -48,3 +50,42 @@ controller, then add:
 
 * `v1.0.0`: Initial version
 * `v1.0.1`: Add 'rake' as dependency
+
+### `verify` command
+
+You can run the `verify` command with an optional `--verbose` to print out
+details about whether the robots are processes are running as configured.
+
+When no errors are detected, the output looks like so:
+
+    % bundle exec controller verify
+    OK
+
+    % bundle exec controller verify --verbose
+    OK robot1 is up
+    OK robot2 is up
+    OK robot3 is not enabled
+    OK robot4 is not enabled
+
+If `robot2` were down and `robot3` were up, the output would look like so:
+
+    % bundle exec controller verify
+    ERROR robot2 is down (0 out of 3 processes running)
+    ERROR robot3 is not enabled but 1 process is running
+
+    % bundle exec controller verify --verbose
+    OK robot1 is up
+    ERROR robot2 is down (0 out of 3 processes running)
+    ERROR robot3 is not enabled but 1 process is running
+    OK robot4 is not enabled
+
+The various states are determined as follows:
+
+- If the robot is enabled:
+-- `OK`: all N processes are running
+-- `ERROR`: not all N processes are running
+- If the robot is NOT enabled:
+-- `OK`: no processes are running
+-- `ERROR`: 1 or more processes are running
+
+NOTE: The queues on which the robots are running are NOT verified.
