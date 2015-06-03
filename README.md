@@ -87,5 +87,7 @@ The various states are determined as follows:
 - If the robot is NOT enabled:
   - `OK`: no processes are running
   - `ERROR`: 1 or more processes are running
+- If the robot is unknown by the suite:
+  - `ERROR`: always
 
 NOTE: The queues on which the robots are running are NOT verified.
