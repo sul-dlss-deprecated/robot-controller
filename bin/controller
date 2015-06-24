@@ -66,8 +66,11 @@ when 'verify'
   end
 
   # verify that all robots running are known to the config/robots.yml
-  running.each_pair do |robot, n|
-    puts "ERROR: '#{robot}' robot is unknown to the suite. Check config/robots.yml" unless robots.include?(robot)
+  running.each_key do |robot|
+    if !robots.include?(robot)
+      puts "ERROR: '#{robot}' robot is unknown to the suite. Check config/robots.yml" 
+      running.delete(robot)
+    end
   end
 
   # verify suite
