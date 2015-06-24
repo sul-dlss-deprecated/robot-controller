@@ -6,4 +6,7 @@ module RobotController
   def self.bluepill_config
     File.join(File.dirname(__FILE__), 'robot-controller', 'bluepill.rb')
   end
+
+  autoload :Verify, 'robot-controller/verify'
+  autoload :Parser, 'robot-controller/robots'
 end

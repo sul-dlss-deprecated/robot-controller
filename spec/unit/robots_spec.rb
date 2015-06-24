@@ -1,9 +1,9 @@
 require 'robot-controller/robots'
 
-describe RobotConfigParser do
+describe RobotController::Parser do
   context 'simple' do
     subject do
-      RobotConfigParser.new.load('standard.yml', 'spec/fixtures', 'host1')
+      RobotController::Parser.load('standard.yml', 'spec/fixtures', 'host1')
     end
 
     it 'pass1' do
@@ -17,7 +17,7 @@ describe RobotConfigParser do
 
   context 'expanded' do
     subject do
-      RobotConfigParser.new.load('standard.yml', 'spec/fixtures', 'host2')
+      RobotController::Parser.load('standard.yml', 'spec/fixtures', 'host2')
     end
 
     it 'pass2' do
@@ -32,7 +32,7 @@ describe RobotConfigParser do
 
   context 'parse_instances' do
     subject do
-      RobotConfigParser.new
+      RobotController::Parser
     end
     it 'valid inputs' do
       expect(subject.parse_instances(0)).to eq 1
@@ -49,7 +49,7 @@ describe RobotConfigParser do
 
   context 'parse_lanes' do
     subject do
-      RobotConfigParser.new
+      RobotController::Parser
     end
 
     it 'valid inputs' do
@@ -72,7 +72,7 @@ describe RobotConfigParser do
 
   context 'build_queues' do
     subject do
-      RobotConfigParser.new
+      RobotController::Parser
     end
 
     it 'valid inputs' do
