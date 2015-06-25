@@ -68,16 +68,16 @@ When no errors are detected, the output looks like so:
     OK robot3 is not enabled (0 running)
     OK robot4 is not enabled (0 running)
 
-If `robot2` were down and `robot3` were up, the output would look like so:
+If `robot2` were down and `robot3` were up, the output would look something like:
 
     % bundle exec controller verify
-    ERROR robot2 is down (0 of 3 running)
-    ERROR robot3 is not enabled but 1 running
+    ERROR robot2 is down (1 of 3 running)
+    ERROR robot3 is not enabled (but 1 running)
 
     % bundle exec controller verify --verbose
     OK robot1 is up (1 running)
-    ERROR robot2 is down (0 of 3 running)
-    ERROR robot3 is not enabled but 1 running
+    ERROR robot2 is down (1 of 3 running)
+    ERROR robot3 is not enabled (but 1 running)
     OK robot4 is not enabled (0 running)
 
 The various states are determined as follows:
