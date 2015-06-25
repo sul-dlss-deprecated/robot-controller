@@ -22,7 +22,7 @@ Then to use the controller to boot the robots:
     % bundle exec controller boot
     
 If you want to *override* the bluepill configuration but still use the 
-controller, then add:
+controller (though NOT recommended), then add:
 
     config/bluepill.rb
 
@@ -37,7 +37,7 @@ controller, then add:
       % controller boot    # start bluepilld and jobs
       % controller status  # check on status of jobs
       % controller verify  # verify robots are running as configured
-      % controller log 1_dor_accessionWF_descriptive-metadata # view log for worker 
+      % controller log robot01_01_dor_accessionWF_descriptive-metadata # view log for worker 
       % controller stop    # stop jobs
       % controller quit    # stop bluepilld
   
