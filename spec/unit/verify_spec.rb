@@ -94,6 +94,23 @@ describe RobotController::Verify do
       )
     end
 
+    it 'runs controller status with errors' do
+      allow(subject).to receive(:controller_status).and_return([
+        'robot01_01_dor_gisAssemblyWF_assign-placenamesMISMATCH(pid:29481): down'
+      ])
+      expect(subject.robot_status('dor_gisAssemblyWF_assign-placenames')).to eq(
+        { state: :unknown, running: 0 }
+      )
+      #expect(subject.robot_status('dor_gisAssemblyWF_assign-placenamesMISMATCH')).to eq(
+      #  { state: :not_enabled, running: 1 }
+      #)
+      expect { subject.robot_status('garbage') }.to raise_error(RuntimeError)
+      expect(subject.verify).to eq(
+      #  'dor_gisAssemblyWF_assign-placenamesMISMATCH' => { state: :not_enabled, running: 1 },
+        'dor_gisAssemblyWF_assign-placenames' => { state: :unknown, running: 0 }
+      )
+    end
+
     it 'runs controller status even when broken' do
       allow(subject).to receive(:controller_status).and_return([])
       expect { subject.verify }.to raise_error(RuntimeError)
