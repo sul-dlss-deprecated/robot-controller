@@ -1,15 +1,19 @@
 #!/usr/bin/env ruby
+require 'yaml'
+require 'robot-controller'
 
 if ARGV.size == 0
   puts '
 Usage: controller ( boot | quit )
        controller ( start | status | stop | restart | log ) [worker]
+       controller verify [--verbose]
        controller [--help]
 
 Example:
   % controller boot    # start bluepilld and jobs
   % controller status  # check on status of jobs
   % controller log dor_accessionWF_descriptive-metadata # view log for worker
+  % controller verify  # verify robots are running as configured
   % controller stop    # stop jobs
   % controller quit    # stop bluepilld
 
@@ -25,30 +29,82 @@ ENV['ROBOT_ENVIRONMENT'] ||= 'development'
 ENV['BLUEPILL_BASE_DIR'] ||= File.expand_path('run/bluepill')
 ENV['BLUEPILL_LOGFILE'] ||= File.expand_path('log/bluepill.log')
 
-unless File.directory?('config') &&
-       File.directory?(File.dirname(ENV['BLUEPILL_BASE_DIR'])) &&
-       File.directory?(File.dirname(ENV['BLUEPILL_LOGFILE']))
-  fail 'Run from root directory'
-end
+fail 'bluepill requires config directory' unless File.directory?('config')
+fail 'bluepill requires run directory' unless File.directory?(File.dirname(ENV['BLUEPILL_BASE_DIR']))
+fail 'bluepill requires log directory' unless File.directory?(File.dirname(ENV['BLUEPILL_LOGFILE']))
 
 cmd = 'bluepill'
 cmd << ' --no-privileged'
 cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR']}"
 cmd << " --logfile #{ENV['BLUEPILL_LOGFILE']}"
 
-if ARGV[0] == 'boot'
+case ARGV[0].downcase
+when 'boot'
   fn = 'config/bluepill.rb' # allow override
-  unless File.file?(fn)
-    require 'robot-controller'
-    fn = RobotController.bluepill_config
-  end
+  fn = RobotController.bluepill_config unless File.file?(fn)
   if File.file?(fn)
-    puts "Loading #{fn}"
+    # puts "Loading #{fn}"
     exec "#{cmd} load #{fn}"
     # NOTREACHED
   end
   puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
   exit(-1)
+when 'verify'
+  verbose = (ARGV[1] == '--verbose')
+
+  # load list of all possible robots
+  robots = YAML.load_file('config/robots.yml')
+  fail ArgumentError unless robots.is_a? Array
+
+  # determine how many processes should be running for each robot
+  running = {}
+  robots.each do |robot|
+    running[robot] = 0
+  end
+  RobotController::Parser.load("robots_#{ENV['ROBOT_ENVIRONMENT']}.yml").each do |h|
+    running[h[:robot]] = h[:n]
+  end
+
+  # verify that all robots running are known to the config/robots.yml
+  running.each_key do |robot|
+    if !robots.include?(robot)
+      puts "ERROR: '#{robot}' robot is unknown to the suite. Check config/robots.yml" 
+      running.delete(robot)
+    end
+  end
+
+  # verify suite
+  verify = RobotController::Verify.new(running)
+  begin
+    statuses = verify.verify
+  rescue => e
+    puts "ERROR: Cannot run verification for any robots. #{e.class}: #{e.message}" 
+    exit(-1)
+  end
+
+  # print output for each status
+  ok = true
+  puts 'ERROR: No robots to verify?' if statuses.size == 0
+  statuses.each_pair do |robot, status|
+    case status[:state]
+    when :up
+      puts "OK: #{robot} is up (#{status[:running]} running)" if verbose
+    when :not_enabled
+      if status[:running] == 0
+        puts "OK: #{robot} is not enabled (0 running)" if verbose
+      else
+        puts "ERROR: #{robot} is not enabled (but #{status[:running]} running)"
+      end
+    when :down
+      ok = false
+      puts "ERROR: #{robot} is down (#{status[:running]} of #{running[robot]} running)"
+    else
+      ok = false
+      puts "ERROR: #{robot} cannot be verified (state=#{status[:state]})"
+    end
+  end
+  puts 'OK' if ok && !verbose && statuses.size > 0
+  exit(0)
 else
   exec "#{cmd} #{ARGV.join(' ')}"
   # NOTREACHED
