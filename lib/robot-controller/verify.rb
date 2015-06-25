@@ -116,7 +116,7 @@ module RobotController
         @status = {}
         robots.each do |robot|
           matches = states.select { |state| state[:robot] == robot }
-          @status[robot] = self.class.consolidate_states_into_status(matches)
+          @status[robot] = self.class.consolidate_states_into_status(matches) if matches.size > 0
         end
 
         # cross-check against all robots
@@ -137,7 +137,7 @@ module RobotController
     # Runs 'bundle exec controller status' and returns/yields output
     # @yield [Array[String]] output
     def controller_status
-      IO.popen('bundle exec controller status 2>&1').readlines.map(&:strip)
+      IO.popen('bundle exec controller status 2>&1', 'r').readlines.map(&:strip)
     end
 
     # -- Class methods --
