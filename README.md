@@ -56,6 +56,7 @@ controller, then add:
 
 You can run the `verify` command with an optional `--verbose` to print out
 details about whether the robots processes are running as configured.
+To install create a `config/robots.yml` that lists all of the robots in your suite.
 
 When no errors are detected, the output looks like so:
 
