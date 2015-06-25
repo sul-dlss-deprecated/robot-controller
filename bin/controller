@@ -90,7 +90,11 @@ when 'verify'
     when :up
       puts "OK: #{robot} is up (#{status[:running]} running)" if verbose
     when :not_enabled
-      puts "OK: #{robot} is not enabled (#{status[:running]} running)" if verbose
+      if status[:running] == 0
+        puts "OK: #{robot} is not enabled (0 running)" if verbose
+      else
+        puts "ERROR: #{robot} is not enabled (but #{status[:running]} running)"
+      end
     when :down
       ok = false
       puts "ERROR: #{robot} is down (#{status[:running]} of #{running[robot]} running)"
