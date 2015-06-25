@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sul-dlss/robot-controller.svg?branch=master)](https://travis-ci.org/sul-dlss/robot-controller)
+
 robot-controller
 ================
 
