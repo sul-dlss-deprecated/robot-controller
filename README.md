@@ -50,6 +50,7 @@ controller, then add:
 
 * `v1.0.0`: Initial version
 * `v1.0.1`: Add 'rake' as dependency
+* `v2.0.0`: Added 'verify' command
 
 ### `verify` command
 
@@ -62,22 +63,22 @@ When no errors are detected, the output looks like so:
     OK
 
     % bundle exec controller verify --verbose
-    OK robot1 is up
-    OK robot2 is up
-    OK robot3 is not enabled
-    OK robot4 is not enabled
+    OK robot1 is up (1 running)
+    OK robot2 is up (1 running)
+    OK robot3 is not enabled (0 running)
+    OK robot4 is not enabled (0 running)
 
 If `robot2` were down and `robot3` were up, the output would look like so:
 
     % bundle exec controller verify
-    ERROR robot2 is down (0 out of 3 processes running)
-    ERROR robot3 is not enabled but 1 process is running
+    ERROR robot2 is down (0 of 3 running)
+    ERROR robot3 is not enabled but 1 running
 
     % bundle exec controller verify --verbose
-    OK robot1 is up
-    ERROR robot2 is down (0 out of 3 processes running)
-    ERROR robot3 is not enabled but 1 process is running
-    OK robot4 is not enabled
+    OK robot1 is up (1 running)
+    ERROR robot2 is down (0 of 3 running)
+    ERROR robot3 is not enabled but 1 running
+    OK robot4 is not enabled (0 running)
 
 The various states are determined as follows:
 
