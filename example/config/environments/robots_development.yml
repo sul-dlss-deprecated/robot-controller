@@ -14,6 +14,7 @@
 #          - a list of identiers ('A,B,C'), or 
 #          - an asterix (*).
 #    3. instances is a single integer.
+#    4. host is the hostname or '*' for any host
 #
 #  Both lane and instances are optional. Lane defaults to 'default', and 
 #  instances defaults to 1.
@@ -43,7 +44,7 @@
 #
 # Robot 1 (8 CPU) hosts shelving and publish only
 #
-sul-robots1-dev:
+robot1:
   - dor_accessionWF_shelve:A                  # 1 robot for lane A
   - dor_accessionWF_shelve:B:3                # 3 robots for lane B
   - dor_accessionWF_shelve:C:3                # 3 robots for lane C
@@ -64,7 +65,7 @@ sul-robots1-dev:
 #
 # Robot 2 (16 CPU) hosts technical metadata creation only
 #
-sul-robots2-dev:
+robot2:
   - dor_accessionWF_technical-metadata:A:5    # 5 robots for lane A
   - dor_accessionWF_technical-metadata:B:5    # 5 robots for lane B
   - dor_accessionWF_technical-metadata:C,D,E:5  # 5 robots for lanes C, D, and E
@@ -72,7 +73,7 @@ sul-robots2-dev:
 #
 # Robot 3 (4 CPU) hosts helper robots for all accessioning workflows
 #
-sul-robots3-dev:
+robot3:
   - dor_accessionWF_descriptive-metadata      # 1 robot for default lane
   - dor_accessionWF_rights-metadata           # 1 robot for default lane
   - dor_accessionWF_content-metadata          # 1 robot for default lane
