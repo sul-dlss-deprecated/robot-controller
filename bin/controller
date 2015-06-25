@@ -4,6 +4,7 @@ require 'robot-controller'
 
 # bin/controller tool
 module RobotController
+  #
   class CLI
     # meta command
     def self.run(args)
@@ -72,8 +73,8 @@ module RobotController
 
         # verify that all robots running are known to the config/robots.yml
         running.each_key do |robot|
-          if !robots.include?(robot)
-            puts "ERROR: '#{robot}' robot is unknown to the suite. Check config/robots.yml" 
+          unless robots.include?(robot)
+            puts "ERROR: '#{robot}' robot is unknown to the suite. Check config/robots.yml"
             running.delete(robot)
           end
         end
@@ -83,7 +84,7 @@ module RobotController
         begin
           statuses = verify.verify
         rescue => e
-          puts "ERROR: Cannot run verification for any robots. #{e.class}: #{e.message}" 
+          puts "ERROR: Cannot run verification for any robots. #{e.class}: #{e.message}"
           exit(-1)
         end
 
