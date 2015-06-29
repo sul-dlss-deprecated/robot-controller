@@ -23,7 +23,7 @@ Create the following configuration files based on the examples in `example/confi
     
 Then to use the controller to boot the robots:
 
-    % bundle exec controller boot
+    bundle exec controller boot
     
 If you want to *override* the bluepill configuration but still use the 
 controller (though NOT recommended), then add:
@@ -38,12 +38,12 @@ controller (though NOT recommended), then add:
            controller [--help]
 
     Example:
-      % controller boot    # start bluepilld and jobs
-      % controller status  # check on status of jobs
-      % controller verify  # verify robots are running as configured
-      % controller log robot01_01_dor_accessionWF_descriptive-metadata # view log for worker 
-      % controller stop    # stop jobs
-      % controller quit    # stop bluepilld
+      controller boot    # start bluepilld and jobs
+      controller status  # check on status of jobs
+      controller verify  # verify robots are running as configured
+      controller log robot01_01_dor_accessionWF_descriptive-metadata # view log for worker 
+      controller stop    # stop jobs
+      controller quit    # stop bluepilld
   
     Environment:
       BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
