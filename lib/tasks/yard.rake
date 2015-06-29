@@ -1,7 +1,7 @@
 begin
   require 'yard'
   YARD::Rake::YardocTask.new do |t|
-    t.files = ['lib/**/*.rb', 'bin/**/*.rb']
+    t.files = ['lib/**/*.rb', 'bin/controller']
     t.options = ['--readme', 'README.md', '-m', 'markdown']
   end
 
