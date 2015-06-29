@@ -49,7 +49,7 @@ module RobotController
       fail ArgumentError if nprocesses.nil? || !nprocesses.is_a?(Hash)
       fail ArgumentError, 'Empty argument' if nprocesses.size == 0
       @running = nprocesses
-      @robots = @running.each_key.to_a
+      @robots = @running.keys
       @status = nil
     end
 
@@ -71,11 +71,7 @@ module RobotController
     # }
     def verify(reload = true)
       @status = nil if reload
-      r = {}
-      robots.each do |robot|
-        r[robot] = robot_status(robot)
-      end
-      r
+      {}.tap { |hash| robots.each { |robot| hash[robot] = robot_status(robot) } }
     end
 
     # @param [String] robot name
