@@ -97,3 +97,22 @@ The various states are determined as follows:
   - `ERROR`: always
 
 NOTE: The queues on which the robots are running are NOT verified.
+
+### Running `verify` command via crontab
+
+In `Capfile` add:
+
+    require 'whenever/capistrano'
+
+In `config/deploy.rb` add:
+
+    set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
+In `config/schedule.rb` add:
+
+    every 5.minutes do
+      # cannot use :output with Hash/String because we don't want append behavior
+      set :output, lambda { '> log/verify.log 2> log/cron.log' }
+      set :environment_variable, 'ROBOT_ENVIRONMENT'
+      rake 'robots:verify'
+    end
