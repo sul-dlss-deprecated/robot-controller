@@ -4,7 +4,8 @@ require 'yaml'
 module RobotController
   #
   class Parser
-    ROBOT_INSTANCE_MAX = 16
+    # maximum number of processes a single robot can have
+    ROBOT_INSTANCE_MAX = 16 
 
     class << self
       # main entry point
@@ -13,80 +14,90 @@ module RobotController
         robots_fn = File.join(dir, robots_fn) if dir
         fail "FileNotFound: #{robots_fn}" unless File.file?(robots_fn)
 
-        # read the YAML file
-        # puts "Loading #{robots_fn}"
+        # read the YAML file with the configuration of all the robots to run
         robots =  YAML.load_file(robots_fn)
-        # puts robots
 
-        # determine current host
-        host = `hostname -s`.strip unless host
-        # puts host
+        # determine current host if not provided
+        host ||= `hostname -s`.strip
 
-        # host = 'sul-robots1-dev' # XXX
-        fail "HostMismatch: #{host} not defined in #{robots_fn}" unless robots.include?(host) || robots.include?('*')
-        host = '*' unless robots.include?(host)
-
-        parse_yaml(robots[host])
-      end
-
-      # parse_instances(1) == 1
-      # parse_instances(16) == 16
-      # parse_instances(0) == 1
-      # parse_instances(99) => RuntimeError
-      def parse_instances(n)
-        fail "TooManyInstances: #{n} > #{ROBOT_INSTANCE_MAX}" if n > ROBOT_INSTANCE_MAX
-        n = 1 if n < 1
-        n
-      end
-
-      # parse_lanes('') == ['default']
-      # parse_lanes(' ') == ['default']
-      # parse_lanes(' , ') == ['default']
-      # parse_lanes(' , ,') == ['default']
-      # parse_lanes('*') == ['*']
-      # parse_lanes('1') == ['1']
-      # parse_lanes('A') == ['A']
-      # parse_lanes('A , B') == ['A', 'B']
-      # parse_lanes('A,B,C') == ['A','B','C']
-      # parse_lanes('A-C,E') == ['A-C', 'E']
-      def parse_lanes(lanes_spec)
-        return ['default'] if lanes_spec.split(/,/).collect(&:strip).join('') == ''
-        lanes_spec.split(/,/).collect(&:strip).uniq
-      end
-
-      # build_queues('z','A') => ['z_A']
-      # build_queues('z','A,C') => ['z_A', 'z_C']
-      def build_queues(robot, lanes)
-        queues = []
-        parse_lanes(lanes).each do |i|
-          queues << [robot, i].join('_')
-        end
-        queues
-      end
-
-      def parse_yaml(robots)
-        # parse YAML lines for host where i is robot[:lane[:instances]]
-        r = []
-        robots.each do |i|
-          robot = i.split(/:/).collect(&:strip)
-          robot.each do |j|
-            fail "SyntaxError: #{i}" if j.strip == ''
+        # if the config lists this specific host, use it; 
+        # else check to see if '*' is a matching host
+        unless robots.include?(host)
+          if robots.include?('*')
+            host = '*'
+          else
+            fail "HostMismatch: #{host} not defined in #{robots_fn}"
           end
-
-          # add defaults
-          robot << 'default' if robot.size == 1
-          robot << '1' if robot.size == 2
-
-          # build queues for robot instances
-          fail "SyntaxError: #{i}" unless robot.size == 3
-          robot[2] = parse_instances(robot[2].to_i)
-          # puts robot.join(' : ')
-          queues = build_queues(robot[0], robot[1])
-          # puts queues
-
-          r << { robot: robot[0], queues: queues, n: robot[2] }
         end
-        r
+
+        # parse the host-specific YAML configuration
+        parse_robots_configuration(robots[host])
+      end
+
+      # validates that the instances value is within range, e.g.,
+      # 
+      #   instances_valid?(1) == 1
+      #   instances_valid?(16) == 16
+      #   instances_valid?(0) == 1             # out of range low, enforce minimum
+      #   instances_valid?(99) => RuntimeError # out of range high, error out
+      def instances_valid?(n)
+        fail "TooManyInstances: #{n} > #{ROBOT_INSTANCE_MAX}" if n > ROBOT_INSTANCE_MAX
+        (n < 1) ? 1 : n
+      end
+
+      # parse the lane values designator using the following syntax:
+      #
+      #   parse_lanes('') == ['default']
+      #   parse_lanes(' ') == ['default']
+      #   parse_lanes(' , ') == ['default']
+      #   parse_lanes(' , ,') == ['default']
+      #   parse_lanes('*') == ['*']
+      #   parse_lanes('1') == ['1']
+      #   parse_lanes('A') == ['A']
+      #   parse_lanes('A , B') == ['A', 'B']
+      #   parse_lanes('A,B,C') == ['A','B','C']
+      #   parse_lanes('A-C,E') == ['A-C', 'E']
+      def parse_lanes(lanes_spec)
+        lanes = lanes_spec.split(/,/).collect(&:strip).uniq
+        lanes.join('') == '' ? ['default'] : lanes
+      end
+
+      # generate the queue names for all given lanes, e.g.,
+      #
+      #   queue_names('z','A') => ['z_A']
+      #   queue_names('z','A,C') => ['z_A', 'z_C']
+      def queue_names(robot, lanes)
+        parse_lanes(lanes).collect { |lane| robot + '_' + lane }
+      end
+
+      # parse YAML lines for host where line is robot[:lane[:instances]]
+      #
+      # @return [Array<Hash>]
+      #  [{
+      #    robot: 'foo',
+      #    queues: ['foo_default'],
+      #    n: 2
+      #  }, ... ]
+      def parse_robots_configuration(robots)
+        [].tap do |r|
+          robots.each do |line|
+            robot = line.split(/:/).collect(&:strip)
+            robot.each do |j|
+              fail "SyntaxError: '#{line}' is missing arguments" if j.strip == ''
+            end
+
+            # add defaults
+            robot << 'default' if robot.size == 1
+            robot << '1' if robot.size == 2
+
+            # build queues for robot instances
+            fail "SyntaxError: '#{line}' is missing arguments" unless robot.size == 3
+            robot[2] = instances_valid?(robot[2].to_i)
+            queues = queue_names(robot[0], robot[1])
+
+            r << { robot: robot[0], queues: queues, n: robot[2] }
+          end
+        end
       end
     end
   end
