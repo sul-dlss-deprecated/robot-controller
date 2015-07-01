@@ -32,12 +32,12 @@ describe RobotController::Parser do
 
   context 'expanded mismatched host' do
     it 'reports error' do
-      expect { 
+      expect do
         RobotController::Parser.load('standard.yml', 'spec/fixtures', 'host3')
-      }.to raise_error(RuntimeError)
+      end.to raise_error(RuntimeError)
     end
   end
-  
+
   context 'matcher' do
     subject do
       RobotController::Parser.load('matcher.yml', 'spec/fixtures', 'host3')
@@ -54,9 +54,9 @@ describe RobotController::Parser do
 
   context 'file-not-found' do
     it 'reports error' do
-      expect {
+      expect do
         RobotController::Parser.load('nofile.yml', 'spec/fixtures', 'host3')
-      }.to raise_error(RuntimeError)
+      end.to raise_error(RuntimeError)
     end
   end
 

@@ -5,7 +5,7 @@ module RobotController
   #
   class Parser
     # maximum number of processes a single robot can have
-    ROBOT_INSTANCE_MAX = 16 
+    ROBOT_INSTANCE_MAX = 16
 
     class << self
       # main entry point
@@ -20,7 +20,7 @@ module RobotController
         # determine current host if not provided
         host ||= `hostname -s`.strip
 
-        # if the config lists this specific host, use it; 
+        # if the config lists this specific host, use it;
         # else check to see if '*' is a matching host
         unless robots.include?(host)
           if robots.include?('*')
@@ -35,7 +35,7 @@ module RobotController
       end
 
       # validates that the instances value is within range, e.g.,
-      # 
+      #
       #   instances_valid?(1) == 1
       #   instances_valid?(16) == 16
       #   instances_valid?(0) == 1             # out of range low, enforce minimum
