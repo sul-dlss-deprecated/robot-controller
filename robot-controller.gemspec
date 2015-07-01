@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'bluepill', '0.0.68' # pin bluepill to prevent nil status output regression
   s.add_dependency 'resque', '~> 1.25.2'
   s.add_dependency 'rake', '~> 10.3.2'
+  s.add_dependency 'whenever', '~> 0.9.2'
 
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'pry'
