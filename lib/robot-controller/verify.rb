@@ -80,8 +80,6 @@ module RobotController
       @running[robot]
     end
 
-    protected
-
     # @param [String] robot name
     # @return [Hash] { state: :up | :down | :not_enabled, running: n }
     def robot_status(robot)
@@ -91,6 +89,8 @@ module RobotController
         status[robot]
       end
     end
+
+    protected
 
     #
     # @return [Hash] status
