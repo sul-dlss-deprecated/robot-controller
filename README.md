@@ -56,6 +56,7 @@ controller (though NOT recommended), then add:
 * `v1.0.1`: Add 'rake' as dependency
 * `v2.0.0`: Added 'verify' command
 * `v2.0.1`: Added rake robots:verify and support for whenever gem
+* `v2.0.2`: Updated rake dependency
 
 ### `verify` command
 
