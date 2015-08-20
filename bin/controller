@@ -68,7 +68,8 @@ module RobotController
           running[robot] = 0
         end
         RobotController::Parser.load("robots_#{ENV['ROBOT_ENVIRONMENT']}.yml").each do |h|
-          running[h[:robot]] = h[:n]
+          running[h[:robot]] = 0 if running[h[:robot]].nil?
+          running[h[:robot]] += h[:n]
         end
 
         # verify that all robots running are known to the config/robots.yml

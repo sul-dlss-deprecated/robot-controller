@@ -15,7 +15,7 @@ module RobotController
         fail "FileNotFound: #{robots_fn}" unless File.file?(robots_fn)
 
         # read the YAML file with the configuration of all the robots to run
-        robots =  YAML.load_file(robots_fn)
+        robots = YAML.load_file(robots_fn)
 
         # determine current host if not provided
         host ||= `hostname -s`.strip
