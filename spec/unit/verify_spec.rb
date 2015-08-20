@@ -158,4 +158,22 @@ describe RobotController::Verify do
       )
     end
   end
+
+  context 'verify method with multiple robot queues' do
+    subject do
+      RobotController::Verify.new('dor_gisAssemblyWF_assign-placenames' => 3)
+    end
+
+    it 'runs controller status for up' do
+      allow(subject).to receive(:controller_status).and_return([
+        'robot01_01_dor_gisAssemblyWF_assign-placenames(pid:29483): up',
+        'robot02_01_dor_gisAssemblyWF_foobar(pid:29485): up',
+        'robot03_01_dor_gisAssemblyWF_assign-placenames(pid:29484): up',
+        'robot04_01_dor_gisAssemblyWF_assign-placenames(pid:29486): up'
+      ])
+      expect(subject.verify).to eq(
+        'dor_gisAssemblyWF_assign-placenames' => { state: :up, running: 3 }
+      )
+    end
+  end
 end

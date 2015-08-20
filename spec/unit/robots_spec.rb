@@ -52,6 +52,20 @@ describe RobotController::Parser do
     end
   end
 
+  context 'multi' do
+    subject do
+      RobotController::Parser.load('multi.yml', 'spec/fixtures', 'host1')
+    end
+
+    it 'parses correctly' do
+      expect(subject).to eq [
+        { robot: 'X', queues: %w(X_default), n: 1 },
+        { robot: 'X', queues: %w(X_A X_B X_C), n: 1 },
+        { robot: 'X', queues: %w(X_D), n: 3 }
+      ]
+    end
+  end
+
   context 'file-not-found' do
     it 'reports error' do
       expect do
