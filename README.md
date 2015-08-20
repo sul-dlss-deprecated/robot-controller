@@ -57,6 +57,7 @@ controller (though NOT recommended), then add:
 * `v2.0.0`: Added 'verify' command
 * `v2.0.1`: Added rake robots:verify and support for whenever gem
 * `v2.0.2`: Updated rake dependency
+* `v2.0.3`: Fixed problem with multiple robot queues in specification
 
 ### `verify` command
 
