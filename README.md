@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/sul-dlss/robot-controller.svg?branch=master)](https://travis-ci.org/sul-dlss/robot-controller)
 [![Dependency Status](https://gemnasium.com/sul-dlss/robot-controller.svg)](https://gemnasium.com/sul-dlss/robot-controller)
-
+[![Gem Version](https://badge.fury.io/rb/robot-controller.svg)](https://badge.fury.io/rb/robot-controller)
 
 robot-controller
 ================
@@ -16,16 +16,16 @@ In your `Gemfile`, add:
 In your `Rakefile`, add the following (if you don't want to include the environment unconditionally):
 
     require 'robot-controller/tasks'
-    
+
 Create the following configuration files based on the examples in `example/config`:
 
     config/environments/robots_development.yml
-    
+
 Then to use the controller to boot the robots:
 
     bundle exec controller boot
-    
-If you want to *override* the bluepill configuration but still use the 
+
+If you want to *override* the bluepill configuration but still use the
 controller (though NOT recommended), then add:
 
     config/bluepill.rb
@@ -41,10 +41,10 @@ controller (though NOT recommended), then add:
       controller boot    # start bluepilld and jobs
       controller status  # check on status of jobs
       controller verify  # verify robots are running as configured
-      controller log robot01_01_dor_accessionWF_descriptive-metadata # view log for worker 
+      controller log robot01_01_dor_accessionWF_descriptive-metadata # view log for worker
       controller stop    # stop jobs
       controller quit    # stop bluepilld
-  
+
     Environment:
       BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
       BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
