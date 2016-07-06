@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.required_rubygems_version = '>= 1.3.6'
+  s.required_ruby_version = '~> 2.0' # json gem now requires 2.x
 
   s.add_dependency 'bluepill', '!= 0.0.69' # 0.0.69 is broken
   s.add_dependency 'resque'
