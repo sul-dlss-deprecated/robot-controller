@@ -22,10 +22,10 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = '>= 1.3.6'
 
-  s.add_dependency 'bluepill'
-  s.add_dependency 'resque', '~> 1.25.2'
-  s.add_dependency 'rake', '~> 10.3'
-  s.add_dependency 'whenever', '~> 0.9.2'
+  s.add_dependency 'bluepill', '>= 0.0.70' # older versions had problem with status command
+  s.add_dependency 'resque'
+  s.add_dependency 'rake'
+  s.add_dependency 'whenever'
 
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec'
