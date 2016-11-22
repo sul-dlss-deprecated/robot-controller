@@ -47,7 +47,7 @@ module RobotController
     # @param [Hash] nprocesses expected number of processes for all robots
     def initialize(nprocesses)
       fail ArgumentError if nprocesses.nil? || !nprocesses.is_a?(Hash)
-      fail ArgumentError, 'Empty argument' if nprocesses.size == 0
+      fail ArgumentError, 'Empty argument' if nprocesses.size.zero?
       @running = nprocesses
       @robots = @running.keys
       @status = nil
@@ -119,7 +119,7 @@ module RobotController
         robots.each do |robot|
           if @status[robot].nil?
             @status[robot] = {
-              state: (running(robot) == 0 ? :not_enabled : :unknown),
+              state: (running(robot).zero? ? :not_enabled : :unknown),
               running: 0
             }
           elsif @status[robot][:running] != running(robot)
@@ -155,7 +155,7 @@ module RobotController
       #  }
       # ]
       def parse_status_output(output)
-        output.inject([]) { |a, e| a << parse_status_line(e) }.compact
+        output.inject([]) { |acc, elem| acc << parse_status_line(elem) }.compact
       end
 
       #
@@ -176,7 +176,7 @@ module RobotController
             nth:   Regexp.last_match[1].to_i,
             robot: Regexp.last_match[2].to_s,
             pid:   Regexp.last_match[3].to_i,
-            state: (Regexp.last_match[4].to_s == 'up') ? :up : :down
+            state: Regexp.last_match[4].to_s == 'up' ? :up : :down
           }
         end
         nil

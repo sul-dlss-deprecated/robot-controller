@@ -23,11 +23,8 @@ module RobotController
         # if the config lists this specific host, use it;
         # else check to see if '*' is a matching host
         unless robots.include?(host)
-          if robots.include?('*')
-            host = '*'
-          else
-            fail "HostMismatch: #{host} not defined in #{robots_fn}"
-          end
+          fail "HostMismatch: #{host} not defined in #{robots_fn}" unless robots.include?('*')
+          host = '*'
         end
 
         # parse the host-specific YAML configuration
@@ -42,7 +39,7 @@ module RobotController
       #   instances_valid?(99) => RuntimeError # out of range high, error out
       def instances_valid?(n)
         fail "TooManyInstances: #{n} > #{ROBOT_INSTANCE_MAX}" if n > ROBOT_INSTANCE_MAX
-        (n < 1) ? 1 : n
+        n < 1 ? 1 : n
       end
 
       # parse the lane values designator using the following syntax:
