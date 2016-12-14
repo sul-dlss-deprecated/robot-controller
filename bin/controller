@@ -8,7 +8,7 @@ module RobotController
   class CLI
     # meta command
     def self.run(args)
-      if args.size == 0 || args.first == '--help'
+      if args.size.zero? || args.first == '--help'
         puts '
       Usage: controller ( boot | quit )
              controller ( start | status | stop | restart | log ) [worker]
@@ -91,13 +91,13 @@ module RobotController
 
         # print output for each status
         ok = true
-        puts 'ERROR: No robots to verify?' if statuses.size == 0
+        puts 'ERROR: No robots to verify?' if statuses.size.zero?
         statuses.each_pair do |robot, status|
           case status[:state]
           when :up
             puts "OK: #{robot} is up (#{status[:running]} running)" if verbose
           when :not_enabled
-            if status[:running] == 0
+            if status[:running].zero?
               puts "OK: #{robot} is not enabled (0 running)" if verbose
             else
               puts "ERROR: #{robot} is not enabled (but #{status[:running]} running)"

@@ -13,10 +13,12 @@ ROBOTS = RobotController::Parser.load("robots_#{robot_environment}.yml")
 # ]
 #
 
+# rubocop:disable Metrics/BlockLength
 # set application name to parent directory name
 Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
                      log_file: "#{WORKDIR}/log/bluepill.log" do |app|
   app.working_dir = WORKDIR
+  app.logger.level = ::Logger.WARN
   ROBOTS.each_index do |i|
     ROBOTS[i][:n].to_i.times do |j|
       # prefix process name with index number to prevent duplicate process names
@@ -89,3 +91,4 @@ Bluepill.application File.basename(File.dirname(File.dirname(WORKDIR))),
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
