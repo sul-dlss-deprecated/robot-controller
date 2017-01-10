@@ -9,9 +9,9 @@ module RobotController
 
     class << self
       # main entry point
-      def load(robots_fn, dir = 'config/environments', host = nil)
+      def load(robots_fn, dir = './config/environments', host = nil)
         # Validate parameters
-        robots_fn = File.join(dir, robots_fn) if dir
+        robots_fn = File.expand_path(robots_fn, File.expand_path(dir))
         fail "FileNotFound: #{robots_fn}" unless File.file?(robots_fn)
 
         # read the YAML file with the configuration of all the robots to run

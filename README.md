@@ -25,10 +25,10 @@ Then to use the controller to boot the robots:
 
     bundle exec controller boot
 
-If you want to *override* the bluepill configuration but still use the
+If you want to *override* the eye configuration but still use the
 controller (though NOT recommended), then add:
 
-    config/bluepill.rb
+    config/eye.rb
 
 ### Usage
 
@@ -38,16 +38,16 @@ controller (though NOT recommended), then add:
            controller [--help]
 
     Example:
-      controller boot    # start bluepilld and jobs
+      controller boot    # start eyed and jobs
       controller status  # check on status of jobs
       controller verify  # verify robots are running as configured
       controller log robot01_01_dor_accessionWF_descriptive-metadata # view log for worker
       controller stop    # stop jobs
-      controller quit    # stop bluepilld
+      controller quit    # stop eyed
 
     Environment:
-      BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
-      BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
+      EYE_BASEDIR - where eye stores its state (default: run/eye)
+      EYE_LOGFILE - output log (default: log/eye.log)
       ROBOT_ENVIRONMENT - (default: development)
 
 ### Changes

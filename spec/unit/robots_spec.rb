@@ -1,4 +1,4 @@
-require 'robot-controller/robots'
+require 'robot-controller/parser'
 
 describe RobotController::Parser do
   context 'simple' do
