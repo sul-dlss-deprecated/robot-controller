@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'bluepill'
   s.add_dependency 'resque', '~> 1.26'
   s.add_dependency 'rake'
-  s.add_dependency 'whenever', '~> 0.9.2'
+  s.add_dependency 'whenever'
 
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec'
