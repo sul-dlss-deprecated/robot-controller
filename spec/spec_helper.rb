@@ -4,13 +4,16 @@ ENV['ROBOT_ENVIRONMENT'] ||= 'development'
 ENV['ROBOT_LOG'] ||= '/dev/null'
 ENV['ROBOT_LOG_LEVEL'] ||= 'debug'
 
+require 'coveralls'
+Coveralls.wear!
 require 'simplecov'
-SimpleCov.start
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.start do
+  add_filter 'spec'
+end
 
 require 'bundler/setup'
 Bundler.require(:default, :development)
 
 RSpec.configure do |_config|
 end
-
-Rails = Object.new unless defined? Rails
