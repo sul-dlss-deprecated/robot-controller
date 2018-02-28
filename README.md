@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/sul-dlss/robot-controller.svg?branch=master)](https://travis-ci.org/sul-dlss/robot-controller)
+[![Coverage Status](https://coveralls.io/repos/github/sul-dlss/robot-controller/badge.svg)](https://coveralls.io/github/sul-dlss/robot-controller)
 [![Dependency Status](https://gemnasium.com/sul-dlss/robot-controller.svg)](https://gemnasium.com/sul-dlss/robot-controller)
 [![Gem Version](https://badge.fury.io/rb/robot-controller.svg)](https://badge.fury.io/rb/robot-controller)
 
