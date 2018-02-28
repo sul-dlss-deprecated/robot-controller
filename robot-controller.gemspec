@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'rubocop', '~> 0.52.1' # avoid code churn due to rubocop changes
+  s.add_development_dependency 'rubocop-rspec'
   s.add_development_dependency 'version_bumper'
 end
