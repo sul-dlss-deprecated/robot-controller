@@ -1,7 +1,6 @@
 notifications:
   email: false
 
-sudo: false
 cache: bundler
 
 rvm:
