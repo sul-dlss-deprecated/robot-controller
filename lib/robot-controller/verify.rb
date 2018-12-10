@@ -159,7 +159,7 @@ module RobotController
       end
 
       #
-      # @param [String] line as bluepill outputs them...
+      # @param [String] line as eye outputs them...
       # robot01_01_dor_gisAssemblyWF_assign-placenames(pid:29481): up
       # robot02_01_dor_gisAssemblyWF_author-data(pid:29697): down
       # robot03_01_dor_gisAssemblyWF_author-metadata(pid:29512): unmonitored

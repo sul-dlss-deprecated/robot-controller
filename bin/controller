@@ -16,44 +16,44 @@ module RobotController
              controller [--help]
 
       Example:
-        % controller boot    # start bluepilld and jobs
+        % controller boot    # start eyed and jobs
         % controller status  # check on status of jobs
         % controller log dor_accessionWF_descriptive-metadata # view log for worker
         % controller verify  # verify robots are running as configured
         % controller stop    # stop jobs
-        % controller quit    # stop bluepilld
+        % controller quit    # stop eyed
 
       Environment:
-        BLUEPILL_BASEDIR - where bluepill stores its state (default: run/bluepill)
-        BLUEPILL_LOGFILE - output log (default: log/bluepill.log)
+        EYE_BASEDIR - where bluepill stores its state (default: run/eye)
+        EYE_LOGFILE - output log (default: log/eye.log)
         ROBOT_ENVIRONMENT - (default: development)
       '
         exit(-1)
       end
 
       ENV['ROBOT_ENVIRONMENT'] ||= 'development'
-      ENV['BLUEPILL_BASE_DIR'] ||= File.expand_path('run/bluepill')
-      ENV['BLUEPILL_LOGFILE'] ||= File.expand_path('log/bluepill.log')
+      ENV['EYE_BASE_DIR'] ||= File.expand_path('run/eye')
+      ENV['EYE_LOGFILE'] ||= File.expand_path('log/eye.log')
 
-      fail 'bluepill requires config directory' unless File.directory?('config')
-      fail 'bluepill requires run directory' unless File.directory?(File.dirname(ENV['BLUEPILL_BASE_DIR']))
-      fail 'bluepill requires log directory' unless File.directory?(File.dirname(ENV['BLUEPILL_LOGFILE']))
+      fail 'eye requires config directory' unless File.directory?('config')
 
-      cmd = 'bluepill'
-      cmd << ' --no-privileged'
-      cmd << " --base-dir #{ENV['BLUEPILL_BASE_DIR']}"
-      cmd << " --logfile #{ENV['BLUEPILL_LOGFILE']}"
+      cmd = 'eye'
+      # cmd << " --dir #{ENV['EYE_BASE_DIR']}"
+      # cmd << " --logger #{ENV['EYE_LOGFILE']}"
 
       case args.first.downcase
+      when 'status'
+        exec "#{cmd} info -j"
+        exit(0)
       when 'boot'
-        fn = 'config/bluepill.rb' # allow override
-        fn = RobotController.bluepill_config unless File.file?(fn)
+        fn = 'config/eye.rb' # allow override
+        fn = RobotController.eye_config unless File.file?(fn)
         if File.file?(fn)
           # puts "Loading #{fn}"
           exec "#{cmd} load #{fn}"
           # NOTREACHED
         end
-        puts "ERROR: Cannot find bluepill configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
+        puts "ERROR: Cannot find eye configuration file for #{ENV['ROBOT_ENVIRONMENT']}"
         exit(-1)
       when 'verify'
         verbose = (args[1] == '--verbose')

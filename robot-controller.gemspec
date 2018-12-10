@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = '>= 1.3.6'
 
-  s.add_dependency 'bluepill'
+  s.add_dependency 'eye'
   s.add_dependency 'resque', '~> 2.0'
   s.add_dependency 'rake'
   s.add_dependency 'whenever'
